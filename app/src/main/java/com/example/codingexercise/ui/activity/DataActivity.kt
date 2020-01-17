@@ -1,9 +1,12 @@
-package com.example.codingexercise
+package com.example.codingexercise.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.codingexercise.R
 
-class MainActivity : AppCompatActivity() {
+class DataActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
