@@ -5,7 +5,6 @@ import android.app.Application
 import com.example.codingexercise.di.module.AppModule
 import com.example.codingexercise.di.module.NetModule
 import com.example.codingexercise.utils.Constants
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -24,15 +23,6 @@ class Application : Application(), HasActivityInjector {
         .netModule(NetModule(Constants.BASE_URL))
         .build()
         .inject(this)
-
-
-
-    if (LeakCanary.isInAnalyzerProcess(this)) {
-      return
-    }
-    LeakCanary.install(this)
-
-
   }
 
   override fun activityInjector(): AndroidInjector<Activity> = activityInjector

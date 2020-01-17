@@ -10,12 +10,14 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
+
     defaultConfig {
         applicationId "com.example.codingexercise"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -23,6 +25,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
     }
 }
 
@@ -42,8 +51,6 @@ dependencies {
     implementation "com.android.support:support-v13:$supportLibrary"
     implementation "com.android.support:cardview-v7:$supportLibrary"
     implementation "com.google.dagger:dagger:$dagger"
-    implementation "com.google.dagger:dagger-compiler:$dagger"
-    implementation "com.google.dagger:dagger-android-processor:$dagger"
     implementation "com.google.dagger:dagger-android-support:$dagger"
     implementation "com.google.dagger:dagger-android:$dagger"
     kapt "com.google.dagger:dagger-compiler:$dagger"
@@ -52,8 +59,6 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson"
     implementation "javax.annotation:jsr250-api:$javaxAnnotation"
     implementation "javax.inject:javax.inject:$javaxInject"
-    implementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
-    implementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanary"
     implementation "com.squareup.okhttp3:okhttp:$okHttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
@@ -71,8 +76,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
-
-
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    // Optional -- Robolectric environment
+    testImplementation 'androidx.test:core:1.0.0'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:1.10.19'
 }
 
