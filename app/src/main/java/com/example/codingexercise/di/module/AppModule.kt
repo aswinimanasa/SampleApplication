@@ -22,7 +22,7 @@ class AppModule(private val app: Application) {
 
   @Provides
   @Singleton
-  fun provideCryptocurrenciesViewModelFactory(
+  fun provideDataViewModelFactory(
       factory: DataViewModelFactory
   ): ViewModelProvider.Factory = factory
 
