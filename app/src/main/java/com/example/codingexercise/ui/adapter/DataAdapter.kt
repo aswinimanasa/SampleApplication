@@ -52,8 +52,8 @@ class DataAdapter(dataModel : List<DataRowsList>?, context : Context) : Recycler
 
   class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private var title = itemView.findViewById<TextView>(R.id.txttitle)!!
-    private var description = itemView.findViewById<TextView>(R.id.txtdescription)!!
+    private var title = itemView.findViewById<TextView>(R.id.txtTitle)!!
+    private var description = itemView.findViewById<TextView>(R.id.txtDescription)!!
     private var imgView : ImageView = itemView.findViewById<ImageView>(R.id.imgView)!!
     var context : Context? = null
 
@@ -63,7 +63,6 @@ class DataAdapter(dataModel : List<DataRowsList>?, context : Context) : Recycler
         description.text = dataItem.description
         if (dataItem.imageHref != null) {
           imgView.visibility = VISIBLE
-
           Glide.with(context!!).load(dataItem.imageHref.replace("http","https")).apply(
             RequestOptions().diskCacheStrategy(
               DiskCacheStrategy.ALL

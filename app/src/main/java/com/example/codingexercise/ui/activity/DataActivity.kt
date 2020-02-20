@@ -3,22 +3,32 @@ package com.example.codingexercise.ui.activity
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.codingexercise.R
 import com.example.codingexercise.api.DataRowsList
 import com.example.codingexercise.ui.adapter.DataAdapter
+import com.example.codingexercise.utils.Constants.Companion.LIST_ITEMS
+import com.example.codingexercise.utils.InternetConnectionUtil
 import com.example.codingexercise.utils.Status
 import com.example.codingexercise.viewmodel.DataViewModel
 import com.example.codingexercise.viewmodel.DataViewModelFactory
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import android.content.ClipData.Item
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.example.codingexercise.R
 
 
 class DataActivity : AppCompatActivity() {
@@ -35,13 +45,22 @@ class DataActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AndroidInjection.inject(this)
         dataListItems = ArrayList()
+       // dataListItems = ArrayList()
         initializeRecycler()
 
         dataViewModel = ViewModelProviders.of(this, dataViewModelFactory).get(
             DataViewModel::class.java)
 
         progressBar.visibility = View.VISIBLE
-        dataViewModel?.fetch.value = true
+        InternetConnectionUtil.init(application)
+        InternetConnectionUtil.observe(this, Observer { status ->
+            if (status) {
+                dataViewModel?.fetch.value = true
+            }else{
+                dataViewModel?.fetch.value = false
+                Toast.makeText(this,R.string.network_error,LENGTH_LONG).show()
+            }
+        })
         dataViewModel?.dataResult?.observe(this, Observer {
             if ( it.status == Status.SUCCESS){
                 dataListItems = it!!.data!!.rows
@@ -51,6 +70,7 @@ class DataActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
             }
         })
+
 
         itemsrefresh.setOnRefreshListener {
             dataAdapter.addData(dataListItems)
@@ -71,7 +91,11 @@ class DataActivity : AppCompatActivity() {
 
 
     override fun onDestroy() {
-        dataViewModel.disposeElements()
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putSerializable(LIST_ITEMS,dataListItems as ArrayList )
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 }
