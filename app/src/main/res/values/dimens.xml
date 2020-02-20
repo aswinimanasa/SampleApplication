@@ -3,4 +3,8 @@
     <dimen name="text_name_size">22sp</dimen>
     <dimen name="text_size">12sp</dimen>
     <dimen name="default_8dp">8dp</dimen>
+    <dimen name="default_5dp">5dp</dimen>
+    <dimen name="default_4dp">4dp</dimen>
+    <dimen name="imageView_width">100dp</dimen>
+    <dimen name="imageView_height">60dp</dimen>
 </resources>
