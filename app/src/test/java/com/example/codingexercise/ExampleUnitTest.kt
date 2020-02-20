@@ -1,26 +1,18 @@
 package com.example.codingexercise
 
 
-import android.os.AsyncTask
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.example.codingexercise.api.ApiInterface
-import com.example.codingexercise.api.DataRowsList
-import com.example.codingexercise.api.JsonResponse
+import com.example.codingexercise.api.DataModel
 import com.example.codingexercise.repository.DataRepository
-import com.example.codingexercise.utils.Resource
-import com.example.codingexercise.utils.Status
 import com.example.codingexercise.viewmodel.DataViewModel
-import io.reactivex.Single
-import org.junit.Rule
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.junit.Before
-import org.junit.Test
+import org.junit.Rule
+import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.description
+import org.mockito.MockitoAnnotations
+import java.util.*
 
 
 /**
@@ -28,9 +20,30 @@ import org.mockito.Mockito.verify
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@RunWith(JUnit4::class)
-public class ExampleUnitTest {
+
+ class ExampleUnitTest {
     @Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
+    @Mock
+    private lateinit var dataRepository: DataRepository
+    @Mock
+    private lateinit var appContext: Application
+    private lateinit var dataViewModel:DataViewModel
+
+    val dataModel = DataModel()
+
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+        `when`<Context>(appContext.applicationContext).thenReturn(appContext)
+
+        dataViewModel = DataViewModel(dataRepository)
+        insertData() // in order to test , we directly insert it
+
+    }
+
+    private fun insertData() {
+    }
 }
 
