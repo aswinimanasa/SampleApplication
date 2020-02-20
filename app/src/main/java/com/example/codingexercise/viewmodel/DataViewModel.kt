@@ -1,7 +1,7 @@
 package com.example.codingexercise.viewmodel
 
 
-
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -14,15 +14,13 @@ import javax.inject.Inject
 class DataViewModel @Inject constructor(
     private val dataRepository: DataRepository
 ) : ViewModel() {
-  var fetch: MutableLiveData<Boolean> = MutableLiveData()
-  private lateinit var disposableObserver: DisposableObserver<Call<String>>
+    var fetch: MutableLiveData<Boolean> = MutableLiveData()
 
-  val dataResult = Transformations.switchMap(fetch) {
-    dataRepository.dataList()
-  }
-  fun disposeElements() {
-    if (!disposableObserver.isDisposed) disposableObserver.dispose()
-  }
+    val dataResult = Transformations.switchMap(fetch) {
+        dataRepository.dataList()
+    }
+
+
 
 }
 
